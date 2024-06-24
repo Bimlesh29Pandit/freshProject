@@ -1,50 +1,75 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./SignupPage.css";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const history = useNavigate();
 
-  const handleSignup = () => {
-    // Handle signup logic (e.g., send request to backend)
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Email:", email);
-    // Redirect to login or dashboard after successful signup
-    history.push("/login");
+  const handleSignup = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:4000/api/auth/signup",
+        {
+          username,
+          password,
+        }
+      );
+
+      if (response.status === 200) {
+        console.log("Signup successful:", response.data);
+        history("/login");
+      } else {
+        if (response.status === 401) {
+          alert("user already exist");
+          history("/login");
+        }
+        console.error("Signup failed:", response.data);
+      }
+    } catch (error) {
+      console.error(
+        "Error during signup:",
+        error.response?.data || error.message
+      );
+    }
   };
 
   return (
-    <div>
-      <h2>Sign Up</h2>
-      <form>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <button type="button" onClick={handleSignup}>
-          Sign Up
-        </button>
-      </form>
+    <div className="signup-container">
+      <div className="signup-box">
+        <h2>Sign Up</h2>
+        <form>
+          <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your username"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          <button
+            type="button"
+            className="signup-button"
+            onClick={handleSignup}
+          >
+            Sign Up
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

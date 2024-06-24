@@ -15,8 +15,8 @@ const SearchPage = () => {
         `http://localhost:4000/api/breweries/search?${searchType}=${searchTerm}`
       );
       console.log("after api called ");
-      if (res.status === 400) {
-        return alert("Wrong credentials");
+      if (res.status === 500) {
+        return alert("Server Error");
       }
 
       // Assuming you want to navigate to a search results page
@@ -43,9 +43,9 @@ const SearchPage = () => {
           value={searchType}
           onChange={(e) => setSearchType(e.target.value)}
         >
-          <option value="city">City</option>
-          <option value="name">Name</option>
-          <option value="type">Type</option>
+          <option value="city">city</option>
+          <option value="name">name</option>
+          <option value="type">type</option>
           {/* Add more options as needed */}
         </select>
         <button type="submit">Search</button>
