@@ -23,10 +23,12 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log("api called ");
       const res = await axios.post("http://localhost:4000/api/auth/login", {
         username,
         password,
       });
+      console.log("after api called ");
       if (res.status === 400) {
         return alert("Wrong credientials");
       }

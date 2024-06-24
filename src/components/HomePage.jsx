@@ -1,9 +1,8 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-// import LoginPage from "./LoginPage";
+import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
-import LoginPage from "frontend1srccomponentsLoginPage.jsx";
-// import SignupPage from "./SignupPage";
+
 const HomePage = () => {
   return (
     <div style={styles.container}>
