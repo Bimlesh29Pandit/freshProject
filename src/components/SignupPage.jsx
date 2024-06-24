@@ -10,6 +10,8 @@ const SignupPage = () => {
 
   const handleSignup = async () => {
     try {
+      console.log(username);
+      console.log(password);
       const response = await axios.post(
         "http://localhost:4000/api/auth/signup",
         {

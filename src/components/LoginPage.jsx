@@ -24,6 +24,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       console.log("api called ");
+      console.log(password);
       const res = await axios.post("http://localhost:4000/api/auth/login", {
         username,
         password,
