@@ -1,20 +1,35 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchType, setSearchType] = useState("city"); // Default search type
+  const navigate = useNavigate();
 
-  const handleSearch = () => {
-    // Handle search logic (e.g., send request to backend)
-    console.log("Search Term:", searchTerm);
-    console.log("Search Type:", searchType);
-    // Implement search functionality based on searchType
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      console.log("api called ");
+      const res = await axios.get(
+        `http://localhost:4000/api/breweries/search?${searchType}=${searchTerm}`
+      );
+      console.log("after api called ");
+      if (res.status === 400) {
+        return alert("Wrong credentials");
+      }
+
+      // Assuming you want to navigate to a search results page
+      navigate("/search-results", { state: { breweries: res.data } });
+    } catch (err) {
+      alert(err.response?.data?.msg || "An error occurred");
+    }
   };
 
   return (
     <div>
       <h2>Search</h2>
-      <form>
+      <form onSubmit={handleSearch}>
         <label htmlFor="searchTerm">Search Term:</label>
         <input
           type="text"
@@ -29,12 +44,11 @@ const SearchPage = () => {
           onChange={(e) => setSearchType(e.target.value)}
         >
           <option value="city">City</option>
+          <option value="name">Name</option>
           <option value="type">Type</option>
           {/* Add more options as needed */}
         </select>
-        <button type="button" onClick={handleSearch}>
-          Search
-        </button>
+        <button type="submit">Search</button>
       </form>
     </div>
   );
