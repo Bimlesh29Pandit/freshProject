@@ -4,7 +4,7 @@ import axios from "axios";
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   // const handleLogin = () => {
   //   axios
@@ -32,6 +32,8 @@ const LoginPage = () => {
       if (res.status === 400) {
         return alert("Wrong credientials");
       }
+
+      navigate("/search");
       // setMessage(res.data.msg);
       // Store the token in local storage
       localStorage.setItem("token", res.data.token);
